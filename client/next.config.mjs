@@ -4,7 +4,7 @@ const nextConfig = {
   devIndicators: {
     buildActivity: false,
   },
-  output: "standalone",
+  output: "standalone", // ✅ Required for Render Deployment
 };
 
 export default nextConfig;
