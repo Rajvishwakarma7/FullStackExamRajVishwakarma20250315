@@ -83,6 +83,8 @@ MONGO_URI=mongodb+srv://your-username:your-password@your-cluster.mongodb.net/?re
 # JWT Secret Key
 JWT_SECRET=your-secret-key
 
+// -------------------->>> when project deploy use public uri of mysql and remvoe other 
+
 //-------------------------------->>>
 🎨 Frontend Setup
 1. Navigate to the frontend directory:
