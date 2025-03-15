@@ -2,12 +2,14 @@ const mysql = require("mysql2/promise");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const mysqlUrl = new URL(process.env.MYSQL_PUBLIC_URL);
+
 const mysqlPool = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT,
+  host: mysqlUrl.hostname,
+  user: mysqlUrl.username,
+  password: mysqlUrl.password,
+  database: mysqlUrl.pathname.replace("/", ""),
+  port: mysqlUrl.port,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
