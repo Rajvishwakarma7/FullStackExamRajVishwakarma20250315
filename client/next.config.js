@@ -4,6 +4,7 @@ const nextConfig = {
   devIndicators: {
     buildActivity: false,
   },
+  output: "standalone",
 };
 
 export default nextConfig;
