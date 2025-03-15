@@ -11,19 +11,23 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
       const { data } = await apiClient.post("/auth/login", { email, password });
       dispatch(loginSuccess(data));
       localStorage.setItem("token", data.token);
       router.push("/");
     } catch (err) {
-      console.log(err);
       setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,7 +64,13 @@ const Login = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-          <button className="btn btn-primary w-100">Login</button>
+          <button className="btn btn-primary w-100" disabled={loading}>
+            {loading ? (
+              <span className="spinner-border spinner-border-sm"></span>
+            ) : (
+              "Login"
+            )}
+          </button>
         </form>
         <p className="text-center mt-3">
           New User?{" "}

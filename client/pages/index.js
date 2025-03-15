@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import apiClient from "../api/apiClient";
 import { addToCart } from "@/api/cartService";
+import { ToastContainer, toast } from "react-toastify";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -21,22 +22,47 @@ const Home = () => {
   }, []);
 
   const handleAddToCart = async (productId) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.warn("⚠️ Please log in to add items to the cart!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
     try {
       const response = await addToCart(productId, 1);
 
       if (response && response.item === "added") {
-        alert("Product added to cart!");
+        toast.success("🛒 Product added to cart!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
-        alert("Failed to add product to cart.");
+        toast.error(" Failed to add product to cart.");
       }
     } catch (err) {
       console.error("Error adding to cart:", err);
-      alert("Failed to add product to cart.");
+      toast.error(" Failed to add product to cart.");
     }
   };
 
   return (
     <div className="container mt-5">
+      <ToastContainer />
       <div className="row">
         {products.map((product) => (
           <div key={product._id} className="col-lg-4 col-md-6 col-sm-12 mb-4">
